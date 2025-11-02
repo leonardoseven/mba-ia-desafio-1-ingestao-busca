@@ -36,7 +36,6 @@ def load_pdf():
 
 
 def get_embeddings():
-    """Retorna o provider de embeddings baseado na variável de ambiente EMBEDDING_PROVIDER"""
     provider = os.getenv("EMBEDDING_PROVIDER", "openai").lower()
     
     if provider == "openai":

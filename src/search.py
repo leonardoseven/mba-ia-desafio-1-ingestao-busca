@@ -37,7 +37,6 @@ RESPONDA A "PERGUNTA DO USUÁRIO"
 
 
 def get_embeddings():
-    """Retorna o provider de embeddings baseado na variável de ambiente EMBEDDING_PROVIDER"""
     provider = os.getenv("EMBEDDING_PROVIDER", "openai").lower()
     
     if provider == "openai":
@@ -52,14 +51,14 @@ def get_embeddings():
 
 def get_llm():
     """Retorna o LLM baseado na variável de ambiente LLM_PROVIDER"""
-    llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
+    llm_provider = os.getenv("LLM_PROVIDER", "gemini").lower()
     
     if llm_provider == "openai":
-        model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-        return ChatOpenAI(model=model, temperature=0)
+        model = os.getenv("OPENAI_MODEL", "gpt-5-nano")
+        return ChatOpenAI(model=model, temperature=0.1)
     elif llm_provider == "gemini":
-        model = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
-        return ChatGoogleGenerativeAI(model=model, temperature=0)
+        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+        return ChatGoogleGenerativeAI(model=model, temperature=0.1)
     else:
         raise RuntimeError(f"LLM_PROVIDER deve ser 'openai' ou 'gemini'. Valor atual: {llm_provider}")
 
@@ -75,7 +74,7 @@ def search_prompt(question=None):
         elif embedding_provider == "gemini" and not os.getenv("GOOGLE_API_KEY"):
             required_vars.append("GOOGLE_API_KEY")
         
-        llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
+        llm_provider = os.getenv("LLM_PROVIDER", "gemini").lower()
         if llm_provider == "openai" and not os.getenv("OPENAI_API_KEY"):
             required_vars.append("OPENAI_API_KEY")
         elif llm_provider == "gemini" and not os.getenv("GOOGLE_API_KEY"):
